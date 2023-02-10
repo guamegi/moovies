@@ -5,6 +5,7 @@ import Tv from "../screens/Tv";
 import Search from "../screens/Search";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
+import { BLACK_COLOR, YELLOW_COLOR } from "../colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,15 +15,15 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: isDark ? "#ffa801" : "#1e272e",
+        tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
         // headerTintColor: isDark ? "#ffa801" : "#1e272e",
         headerTitleStyle: {
-          color: isDark ? "#ffa801" : "#1e272e",
+          color: isDark ? "white" : BLACK_COLOR,
         },
         headerStyle: {
-          backgroundColor: isDark ? "black" : "tomato",
+          backgroundColor: isDark ? BLACK_COLOR : "white",
         },
-        tabBarStyle: { backgroundColor: isDark ? "black" : "white" },
+        tabBarStyle: { backgroundColor: isDark ? BLACK_COLOR : "white" },
         tabBarLabelStyle: { marginTop: -5, fontSize: 12, fontWeight: "600" },
       }}
     >

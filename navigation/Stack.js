@@ -12,8 +12,8 @@ const ScreenTwo = ({ navigation: { navigate } }) => (
     <Text>Two</Text>
   </TouchableOpacity>
 );
-const ScreenThree = ({ navigation: { setOptions } }) => (
-  <TouchableOpacity onPress={() => setOptions({ title: "helloaaa" })}>
+const ScreenThree = ({ navigation: { goBack } }) => (
+  <TouchableOpacity onPress={() => goBack()}>
     <Text>Three</Text>
   </TouchableOpacity>
 );
@@ -21,7 +21,9 @@ const ScreenThree = ({ navigation: { setOptions } }) => (
 const NativeStack = createNativeStackNavigator();
 const Stack = () => {
   return (
-    <NativeStack.Navigator>
+    <NativeStack.Navigator
+      screenOptions={{ presentation: "modal", headerBackTitleVisible: false }}
+    >
       <NativeStack.Screen name="One" component={ScreenOne} />
       <NativeStack.Screen name="Two" component={ScreenTwo} />
       <NativeStack.Screen name="Three" component={ScreenThree} />
