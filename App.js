@@ -15,7 +15,7 @@ export default function App() {
   const [fonts] = Font.useFonts(Ionicons.font);
   const isDark = useColorScheme() === "dark";
   if (!assets || !fonts) {
-    return <AppLoading />;
+    // return <AppLoading />;
   }
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
