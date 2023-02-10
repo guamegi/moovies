@@ -16,7 +16,6 @@ const Tabs = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: isDark ? YELLOW_COLOR : BLACK_COLOR,
-        // headerTintColor: isDark ? "#ffa801" : "#1e272e",
         headerTitleStyle: {
           color: isDark ? "white" : BLACK_COLOR,
         },
