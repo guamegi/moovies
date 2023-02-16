@@ -20,10 +20,35 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   const [loading, setLoading] = useState(true);
   const [nowPlaying, setNowPlaying] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
+  const [trending, setTrending] = useState([]);
 
   useEffect(() => {
-    getNowPlaying();
+    getData();
   }, []);
+
+  const getData = async () => {
+    await Promise.all([getNowPlaying(), getUpcoming(), getTrending()]);
+    setLoading(false);
+  };
+
+  const getTrending = async () => {
+    const { results } = await (
+      await fetch(
+        `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+      )
+    ).json();
+    setTrending(results);
+  };
+
+  const getUpcoming = async () => {
+    const { results } = await (
+      await fetch(
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1&region=KR`
+      )
+    ).json();
+    setUpcoming(results);
+  };
 
   const getNowPlaying = async () => {
     const { results } = await (
@@ -32,7 +57,6 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       )
     ).json();
     setNowPlaying(results);
-    setLoading(false);
   };
 
   return loading ? (
