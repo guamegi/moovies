@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import Poster from "./Poster";
 import styled from "styled-components/native";
@@ -14,7 +13,6 @@ const Title = styled.Text`
 const HMovie = styled.View`
   flex-direction: row;
   padding: 0px 30px;
-  margin-bottom: 30px;
 `;
 
 const HColumn = styled.View`
