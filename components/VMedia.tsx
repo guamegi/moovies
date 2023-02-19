@@ -19,6 +19,7 @@ interface VMediaProps {
   originalTitle: string;
   voteAverage: number;
 }
+
 const VMedia: React.FC<VMediaProps> = ({
   posterPath,
   originalTitle,

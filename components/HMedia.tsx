@@ -39,6 +39,7 @@ interface HMediaProps {
   releaseDate?: string;
   voteAverage?: number;
 }
+
 const HMedia: React.FC<HMediaProps> = ({
   posterPath,
   originalTitle,

@@ -12,21 +12,25 @@ const Title = styled.Text<{ isDark: boolean }>`
   font-weight: 600;
   color: ${(props) => (props.isDark ? "white" : props.theme.textColor)};
 `;
+
 const Wrapper = styled.View`
   flex-direction: row;
   height: 100%;
   justify-content: center;
   align-items: center;
 `;
+
 const Column = styled.View`
   width: 50%;
   margin-left: 15px;
 `;
+
 const Overview = styled.Text<{ isDark: boolean }>`
   margin-top: 10px;
   color: ${(props) =>
     props.isDark ? "rgba(255, 255, 255, 0.8)" : "rgba(0,0,0,0.8)"};
 `;
+
 const Vote = styled(Overview)`
   font-size: 12px;
 `;
@@ -47,6 +51,7 @@ const Slide: React.FC<SlideProps> = ({
   overview,
 }) => {
   const isDark = useColorScheme() === "dark";
+
   return (
     <View style={{ flex: 1 }}>
       <BgImg
