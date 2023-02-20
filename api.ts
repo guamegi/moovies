@@ -44,7 +44,7 @@ export const moviesApi = {
   search: ({ queryKey }) => {
     const [_, query] = queryKey;
     return fetch(
-      `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&page=1$query=${query}`
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&page=1&query=${query}`
     ).then((res) => res.json());
   },
 };
