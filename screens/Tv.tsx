@@ -1,13 +1,13 @@
-import { View, Text, FlatList, ScrollView, RefreshControl } from "react-native";
-import React from "react";
+import { ScrollView, RefreshControl } from "react-native";
+import React, { useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { tvApi } from "../api";
 import Loader from "../components/Loader";
-import VMedia from "../components/VMedia";
 import HList from "../components/HList";
 
 const Tv = () => {
   const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
   const {
     isLoading: todayLoading,
     data: todayData,
@@ -24,10 +24,12 @@ const Tv = () => {
     isRefetching: trendingRefetching,
   } = useQuery(["tv", "trending"], tvApi.trending);
   const onRefresh = () => {
+    setRefreshing(true);
     queryClient.refetchQueries(["tv"]);
+    setRefreshing(false);
   };
   const loading = todayLoading || topLoading || trendingLoading;
-  const refreshing = todayRefetching || topRefetching || trendingRefetching;
+
   if (loading) {
     return <Loader />;
   }
