@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
 import { Movie, TV } from "../api";
-import { fetchMore } from "../utils";
+import { fetchMore, FetchNext } from "../utils";
 import VMedia from "./VMedia";
 
 const ListContainer = styled.View`
@@ -23,9 +23,10 @@ export const HListSeparator = styled.View`
 
 interface HListProps {
   title: string;
-  data: Movie[] | TV[];
-  hasNextPage: boolean;
-  fetchNextPage: any;
+  // data: Movie[] | TV[] | undefined;
+  data: any;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: FetchNext;
 }
 
 const HList: React.FC<HListProps> = ({

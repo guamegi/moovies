@@ -1,7 +1,7 @@
 import { ScrollView, RefreshControl } from "react-native";
 import React, { useState } from "react";
 import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
-import { tvApi } from "../api";
+import { tvApi, TVResponse } from "../api";
 import Loader from "../components/Loader";
 import HList from "../components/HList";
 import { getNextPage } from "../utils";
@@ -14,7 +14,7 @@ const Tv = () => {
     data: todayData,
     hasNextPage: todayHasNextPage,
     fetchNextPage: todayFetchNextPage,
-  } = useInfiniteQuery(["tv", "today"], tvApi.airingToday, {
+  } = useInfiniteQuery<TVResponse>(["tv", "today"], tvApi.airingToday, {
     getNextPageParam: getNextPage,
   });
   const {
@@ -22,7 +22,7 @@ const Tv = () => {
     data: topData,
     hasNextPage: topHasNextPage,
     fetchNextPage: topFetchNextPage,
-  } = useInfiniteQuery(["tv", "top"], tvApi.topRated, {
+  } = useInfiniteQuery<TVResponse>(["tv", "top"], tvApi.topRated, {
     getNextPageParam: getNextPage,
   });
   const {
@@ -30,7 +30,7 @@ const Tv = () => {
     data: trendingData,
     hasNextPage: trendingHasNextPage,
     fetchNextPage: trendingFetchNextPage,
-  } = useInfiniteQuery(["tv", "trending"], tvApi.trending, {
+  } = useInfiniteQuery<TVResponse>(["tv", "trending"], tvApi.trending, {
     getNextPageParam: getNextPage,
   });
   const onRefresh = () => {
