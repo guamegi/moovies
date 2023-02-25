@@ -1,6 +1,4 @@
 import {
-  View,
-  Text,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
@@ -9,16 +7,16 @@ import {
 } from "react-native";
 import React, { useEffect } from "react";
 import styled from "styled-components/native";
-import { Movie, moviesApi, TV, tvApi } from "../api";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import Poster from "../components/Poster";
-import { makeImgPath } from "../utils";
-import { LinearGradient } from "expo-linear-gradient";
-import { BLACK_COLOR } from "../colors";
 import { useQuery } from "react-query";
-import Loader from "../components/Loader";
+import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import * as WebBrowser from "expo-web-browser";
+import { Movie, MovieDetails, moviesApi, TV, tvApi, TVDetails } from "../api";
+import Poster from "../components/Poster";
+import { makeImgPath } from "../utils";
+import { BLACK_COLOR } from "../colors";
+import Loader from "../components/Loader";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -78,7 +76,7 @@ const Detail: React.FC<DetailScreenProps> = ({
   route: { params },
 }) => {
   const isMovie = "original_title" in params;
-  const { isLoading, data } = useQuery(
+  const { isLoading, data } = useQuery<MovieDetails | TVDetails>(
     [isMovie ? "movies" : "tv", params.id],
     isMovie ? moviesApi.detail : tvApi.detail
   );
@@ -101,27 +99,30 @@ const Detail: React.FC<DetailScreenProps> = ({
   };
 
   const shareMedia = async () => {
-    const isAndroid = Platform.OS === "android";
-    const homepage = isMovie
-      ? `https://www.imdb.com/title/${data.imdb_id}/`
-      : data.homepage;
+    if (data) {
+      const isAndroid = Platform.OS === "android";
+      const homepage =
+        isMovie && "imdb_id" in data
+          ? `https://www.imdb.com/title/${data.imdb_id}/`
+          : data.homepage;
 
-    if (isAndroid) {
-      await Share.share({
-        message: `${params.overview}\nCheck it out: ${homepage}`,
-        title:
-          "original_title" in params
-            ? params.original_title
-            : params.original_name,
-      });
-    } else {
-      await Share.share({
-        url: homepage,
-        title:
-          "original_title" in params
-            ? params.original_title
-            : params.original_name,
-      });
+      if (isAndroid) {
+        await Share.share({
+          message: `${params.overview}\nCheck it out: ${homepage}`,
+          title:
+            "original_title" in params
+              ? params.original_title
+              : params.original_name,
+        });
+      } else {
+        await Share.share({
+          url: homepage,
+          title:
+            "original_title" in params
+              ? params.original_title
+              : params.original_name,
+        });
+      }
     }
   };
 
@@ -154,7 +155,7 @@ const Detail: React.FC<DetailScreenProps> = ({
       <Data>
         <Overview>{params.overview}</Overview>
         {isLoading ? <Loader /> : null}
-        {data?.videos?.results?.map((video) =>
+        {data?.videos?.results?.map((video: any) =>
           video.site === "YouTube" ? (
             <VideoBtn key={video.key} onPress={() => openYTLink(video.key)}>
               <Ionicons name="logo-youtube" color="white" size={24} />
