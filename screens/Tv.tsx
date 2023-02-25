@@ -1,9 +1,10 @@
 import { ScrollView, RefreshControl } from "react-native";
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import { tvApi } from "../api";
 import Loader from "../components/Loader";
 import HList from "../components/HList";
+import { getNextPage } from "../utils";
 
 const Tv = () => {
   const queryClient = useQueryClient();
@@ -11,18 +12,27 @@ const Tv = () => {
   const {
     isLoading: todayLoading,
     data: todayData,
-    isRefetching: todayRefetching,
-  } = useQuery(["tv", "today"], tvApi.airingToday);
+    hasNextPage: todayHasNextPage,
+    fetchNextPage: todayFetchNextPage,
+  } = useInfiniteQuery(["tv", "today"], tvApi.airingToday, {
+    getNextPageParam: getNextPage,
+  });
   const {
     isLoading: topLoading,
     data: topData,
-    isRefetching: topRefetching,
-  } = useQuery(["tv", "top"], tvApi.topRated);
+    hasNextPage: topHasNextPage,
+    fetchNextPage: topFetchNextPage,
+  } = useInfiniteQuery(["tv", "top"], tvApi.topRated, {
+    getNextPageParam: getNextPage,
+  });
   const {
     isLoading: trendingLoading,
     data: trendingData,
-    isRefetching: trendingRefetching,
-  } = useQuery(["tv", "trending"], tvApi.trending);
+    hasNextPage: trendingHasNextPage,
+    fetchNextPage: trendingFetchNextPage,
+  } = useInfiniteQuery(["tv", "trending"], tvApi.trending, {
+    getNextPageParam: getNextPage,
+  });
   const onRefresh = () => {
     setRefreshing(true);
     queryClient.refetchQueries(["tv"]);
@@ -40,9 +50,24 @@ const Tv = () => {
       }
       contentContainerStyle={{ paddingVertical: 30 }}
     >
-      <HList title="Trending TV" data={trendingData.results} />
-      <HList title="Airing Today" data={todayData.results} />
-      <HList title="Top Rated TV" data={topData.results} />
+      <HList
+        title="Trending TV"
+        data={trendingData?.pages.map((page) => page.results).flat()}
+        hasNextPage={trendingHasNextPage}
+        fetchNextPage={trendingFetchNextPage}
+      />
+      <HList
+        title="Airing Today"
+        data={todayData?.pages.map((page) => page.results).flat()}
+        hasNextPage={todayHasNextPage}
+        fetchNextPage={todayFetchNextPage}
+      />
+      <HList
+        title="Top Rated TV"
+        data={topData?.pages.map((page) => page.results).flat()}
+        hasNextPage={topHasNextPage}
+        fetchNextPage={topFetchNextPage}
+      />
     </ScrollView>
   );
 };

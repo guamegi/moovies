@@ -149,13 +149,17 @@ interface TVFetchers {
 }
 
 export const moviesApi: MovieFetchers = {
-  trending: () =>
-    fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`).then((res) =>
-      res.json()
-    ),
-  upcoming: () =>
+  trending: ({ pageParam }) =>
     fetch(
-      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
+      `${BASE_URL}/trending/movie/week?api_key=${API_KEY}&page=${
+        pageParam ? pageParam : 1
+      }`
+    ).then((res) => res.json()),
+  upcoming: ({ pageParam }) =>
+    fetch(
+      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${
+        pageParam ? pageParam : 1
+      }`
     ).then((res) => res.json()),
   nowPlaying: () =>
     fetch(
@@ -176,18 +180,24 @@ export const moviesApi: MovieFetchers = {
 };
 
 export const tvApi: TVFetchers = {
-  trending: () =>
-    fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}`).then((res) =>
-      res.json()
-    ),
-  airingToday: () =>
-    fetch(`${BASE_URL}/tv/airing_today?api_key=${API_KEY}`).then((res) =>
-      res.json()
-    ),
-  topRated: () =>
-    fetch(`${BASE_URL}/tv/top_rated?api_key=${API_KEY}`).then((res) =>
-      res.json()
-    ),
+  trending: ({ pageParam }) =>
+    fetch(
+      `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&page=${
+        pageParam ? pageParam : 1
+      }`
+    ).then((res) => res.json()),
+  airingToday: ({ pageParam }) =>
+    fetch(
+      `${BASE_URL}/tv/airing_today?api_key=${API_KEY}&page=${
+        pageParam ? pageParam : 1
+      }`
+    ).then((res) => res.json()),
+  topRated: ({ pageParam }) =>
+    fetch(
+      `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&page=${
+        pageParam ? pageParam : 1
+      }`
+    ).then((res) => res.json()),
   search: ({ queryKey }) => {
     const [_, query] = queryKey;
     return fetch(
