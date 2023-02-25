@@ -10,7 +10,7 @@ const ListContainer = styled.View`
 `;
 
 const ListTitle = styled.Text`
-  color: white;
+  color: ${(props) => props.theme.textColor};
   font-size: 18px;
   font-weight: 600;
   margin-left: 30px;
@@ -34,29 +34,33 @@ const HList: React.FC<HListProps> = ({
   data,
   hasNextPage,
   fetchNextPage,
-}) => (
-  <ListContainer>
-    <ListTitle>{title}</ListTitle>
-    <FlatList
-      data={data}
-      onEndReached={() => fetchMore(hasNextPage, fetchNextPage)}
-      onEndReachedThreshold={0.5}
-      horizontal
-      ItemSeparatorComponent={HListSeparator}
-      contentContainerStyle={{ paddingHorizontal: 30 }}
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id + ""}
-      renderItem={({ item }) => (
-        <VMedia
-          posterPath={item.poster_path || ""}
-          originalTitle={
-            "original_title" in item ? item.original_title : item.original_name
-          }
-          voteAverage={item.vote_average}
-          fullData={item}
-        />
-      )}
-    />
-  </ListContainer>
-);
+}) => {
+  return (
+    <ListContainer>
+      <ListTitle>{title}</ListTitle>
+      <FlatList
+        data={data}
+        onEndReached={() => fetchMore(hasNextPage, fetchNextPage)}
+        onEndReachedThreshold={0.5}
+        horizontal
+        ItemSeparatorComponent={HListSeparator}
+        contentContainerStyle={{ paddingHorizontal: 30 }}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.id + ""}
+        renderItem={({ item }) => (
+          <VMedia
+            posterPath={item.poster_path || ""}
+            originalTitle={
+              "original_title" in item
+                ? item.original_title
+                : item.original_name
+            }
+            voteAverage={item.vote_average}
+            fullData={item}
+          />
+        )}
+      />
+    </ListContainer>
+  );
+};
 export default HList;

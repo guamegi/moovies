@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import { useQuery } from "react-query";
@@ -12,6 +11,8 @@ const SearchBar = styled.TextInput`
   background-color: white;
   padding: 10px 15px;
   border-radius: 15px;
+  border-width: 1px;
+  border-color: grey;
   width: 90%;
   margin: 10px auto;
   margin-bottom: 40px;

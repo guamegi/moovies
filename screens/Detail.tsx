@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Platform,
   Share,
+  useColorScheme,
 } from "react-native";
 import React, { useEffect } from "react";
 import styled from "styled-components/native";
@@ -58,7 +59,7 @@ const VideoBtn = styled.TouchableOpacity`
   width: 80%;
 `;
 const BtnText = styled.Text`
-  color: white;
+  color: ${(props) => props.theme.textColor};
   font-weight: 600;
   margin-bottom: 10px;
   line-height: 24px;
@@ -75,6 +76,7 @@ const Detail: React.FC<DetailScreenProps> = ({
   navigation: { setOptions },
   route: { params },
 }) => {
+  const isDark = useColorScheme() === "dark";
   const isMovie = "original_title" in params;
   const { isLoading, data } = useQuery<MovieDetails | TVDetails>(
     [isMovie ? "movies" : "tv", params.id],
@@ -128,7 +130,11 @@ const Detail: React.FC<DetailScreenProps> = ({
 
   const ShareButton = () => (
     <TouchableOpacity onPress={shareMedia}>
-      <Ionicons name="share-outline" color="white" size={24} />
+      <Ionicons
+        name="share-outline"
+        color={isDark ? "white" : BLACK_COLOR}
+        size={24}
+      />
     </TouchableOpacity>
   );
 
@@ -158,7 +164,11 @@ const Detail: React.FC<DetailScreenProps> = ({
         {data?.videos?.results?.map((video: any) =>
           video.site === "YouTube" ? (
             <VideoBtn key={video.key} onPress={() => openYTLink(video.key)}>
-              <Ionicons name="logo-youtube" color="white" size={24} />
+              <Ionicons
+                name="logo-youtube"
+                color={isDark ? "white" : BLACK_COLOR}
+                size={24}
+              />
               <BtnText>{video.name}</BtnText>
             </VideoBtn>
           ) : null
