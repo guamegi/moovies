@@ -11,14 +11,11 @@ import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import { MovieResponse, moviesApi } from "../api";
 import { fetchMore, getNextPage } from "../utils";
 
-const ListTitle = styled.Text`
-  color: white;
+const ComingSoonTitle = styled.Text`
+  color: ${(props) => props.theme.textColor};
   font-size: 16px;
   font-weight: 600;
   margin-left: 30px;
-`;
-
-const ComingSoonTitle = styled(ListTitle)`
   margin-bottom: 20px;
 `;
 
