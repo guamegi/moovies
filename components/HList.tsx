@@ -23,10 +23,10 @@ export const HListSeparator = styled.View`
 
 interface HListProps {
   title: string;
-  // data: Movie[] | TV[] | undefined;
+  // data: Movie[] | TV[];
   data: any;
-  hasNextPage: boolean | undefined;
-  fetchNextPage: FetchNext;
+  hasNextPage?: boolean;
+  fetchNextPage?: FetchNext;
 }
 
 const HList: React.FC<HListProps> = ({
@@ -40,7 +40,11 @@ const HList: React.FC<HListProps> = ({
       <ListTitle>{title}</ListTitle>
       <FlatList
         data={data}
-        onEndReached={() => fetchMore(hasNextPage, fetchNextPage)}
+        onEndReached={() => {
+          if (fetchNextPage) {
+            fetchMore(hasNextPage, fetchNextPage);
+          }
+        }}
         onEndReachedThreshold={0.5}
         horizontal
         ItemSeparatorComponent={HListSeparator}
